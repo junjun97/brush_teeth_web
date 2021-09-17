@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import home.views
+import member.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home.views.home, name='index.html'),
+    path('member' , member.views.member, name='member.html'),
 ]
-#안녕하세요 감사해요~!
