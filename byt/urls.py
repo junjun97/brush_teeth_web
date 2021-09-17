@@ -21,3 +21,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home.views.home, name='index.html'),
 ]
+#안녕하세요 감사해요~!
