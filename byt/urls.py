@@ -20,6 +20,6 @@ import member.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home.views.home, name='index.html'),
-    path('member' , member.views.member, name='member.html'),
+    path('home/', home.views.home, name='index.html'),
+    path('home/member' , member.views.member, name='member.html'),
 ]
