@@ -11,11 +11,136 @@
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body class="sb-nav-fixed">
+    <script>
+    var score = new Array();
+    var weakness_key = new Array();
+    var weakness_value = new Array();
+        ( function($) {
+          $(function() {
+var list_context = JSON.parse("{{ context|escapejs }}");
+score = list_context['score_list'];
+weakness_key = list_context['weakness_key'];
+weakness_value = list_context['weakness_value'];
+
+
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+
+// Area Chart Example
+var ctx = document.getElementById("myAreaChart");
+
+var myLineChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ["Mar 1", "Mar 2", "Mar 3", "Mar 4", "Mar 5", "Mar 6", "Mar 7", "Mar 8", "Mar 9", "Mar 10", "Mar 11", "Mar 12", "Mar 13"],
+    datasets: [{
+      label: "Sessions",
+      lineTension: 0.3,
+      backgroundColor: "rgba(255,204,102,0.2)",
+       borderColor: "rgba(255,204,051,1)",
+      pointRadius: 5,
+      pointBackgroundColor: "rgba(255,204,051,1)",
+      pointBorderColor: "rgba(255,255,255,0.8)",
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: "rgba(255,153,051,1)",
+      pointHitRadius: 50,
+      pointBorderWidth: 2,
+      data: score,
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'date'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 7
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 100,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          color: "rgba(0, 0, 0, .125)",
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+
+
+
+///////////////////////////////////////////////////////////////////////////
+
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+
+var ctx = document.getElementById("myBarChart");
+var myLineChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: weakness_key,
+    datasets: [{
+      label: "Revenue",
+      backgroundColor: "rgba(255,204,051,1)",
+     borderColor: "rgba(255,204,051,1)",
+      data: weakness_value,
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: weakness_value[0],
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          display: true
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+
+
+
+
+        });
+    } ) ( jQuery );
+
+    </script>
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="./">양치의 정석</a>
+            <a class="navbar-brand ps-3" href="../home">양치의 정석</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -41,7 +166,7 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="./">
+                            <a class="nav-link" href="../home">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
@@ -53,7 +178,7 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href=""member1>배승호</a>
+                                    <a class="nav-link" href="member1">배승호</a>
                                     <a class="nav-link" href="member2">지준영</a>
                                     <a class="nav-link" href="member3">이찬호</a>
                                     <a class="nav-link" href="member4">임창한</a>
@@ -139,7 +264,7 @@
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        최근 나의 양치질 점수
+                                        나의 양치질 점수
                                     </div>
                                     <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
                                 </div>
@@ -148,62 +273,62 @@
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        나의 양치 미흡 부위
+                                       나의 양치 미흡 부위
                                     </div>
                                     <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                         </div>
-
                        <!-- 2번째 section-->
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="card-header">
                                     <i class="fas fa-table me-1"></i>
-                                    나의 양치 SCORE
+                                    치아 바깥쪽 미흡 부위
                                 </div>
                                 <div class="card-body">
-                                    
+                                    <div class="text-center">
+                                     <br>
+                                    <br>
+                                        <br>
+                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-" style="width: 25rem;"
+                                            src="/static/result_out.png" alt="...">
+                                </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <p>여기다 템플릿써서 설명 넣기~</p>
                                 </div>
                             </div>
                             <!-- Illustrations -->
                             <div class="col-xl-6">
                                 <div class="card-header">
                                   <i class="fas fa-table me-1"></i>
-                                    미흡 부위
+                                    치아 안쪽 미흡 부위
                                 </div>
+
                                 <div class="card-body">
                                     <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="img/undraw_posting_photo.svg" alt="...">
+                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 30rem;"
+                                            src="/static/result_in.png" alt="...">
                                     </div>
                                     <p>여기다 템플릿써서 설명 넣기~</p>
 
                                 </div>
                             </div>
                         </div>
-            <!-- ~~ 2번째 section-->
 
-            <!-- 3번째 section-->
+
+
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                당신의 양치 솔루션
+
+
+                                한눈에 보는 우리가족 양치습관
                             </div>
                             <div class="card-body">
-
-                            </div>
-                        </div>
-            <!-- ~~ 3번째 section-->
-
-            <!-- 4번째 section-->
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                과거 기록 테이블
-                            </div>
-                            <div class="card-body">
-                                <table id="datatablesSimple1">
+                                <table id="datatablesSimple">
                                     <thead>
                                         <tr>
                                             <th>이름</th>
@@ -261,8 +386,7 @@
                                 </table>
                             </div>
                         </div>
-            <!-- ~~ 4번째 section-->
-
+                    </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
